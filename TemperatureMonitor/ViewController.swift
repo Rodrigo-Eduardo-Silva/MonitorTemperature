@@ -8,21 +8,11 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    
-   
-  
     var sensors: [TemperatureSensor] = []
-
     @IBOutlet var tempLabel: [UILabel]!
-    
     @IBOutlet var TempBar: [UIProgressView]!
-    
-     override func viewDidLoad() {
-         
-         
-         
-        
+    override func viewDidLoad() {
+
     updatebar()
    }
     
@@ -40,53 +30,27 @@ class ViewController: UIViewController {
         default:
             barindex = 3
         }
-        
-
         TempBar[barindex].setProgress(Float(degrees)/40, animated: true)
         tempLabel[barindex].text = "\(Int(degrees))℃"
-
     }
   
     func updatebar(){
-       
        let sensorlist = [TemperatureSensor(id: "Sensor 001"),
                          TemperatureSensor(id: "Sensor 002"),
                          TemperatureSensor(id: "Sensor 003"),
-                         TemperatureSensor(id: "Sensor 004"),
-                                                                ]
-      
-        
-        let monitor = ViewController()
-        
-        let timer : Timer?
-        
-        timer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true, block: { [weak self] _ in
-
+                         TemperatureSensor(id: "Sensor 004"),]
         for sensor in sensorlist {
-            
             sensor.delegate = self
-            monitor.add(sensor: sensor)
-
+            self.sensors.append(sensor)
+            sensor.start()
         }
-        })
-                
     }
-     func add(sensor: TemperatureSensor) {
-        
-        self.sensors.append(sensor)
-        sensor.start()
-        
-     }
-    
+
 }
-
-
-  
 extension ViewController : TemperatureSensorDelegate{
     func sensor(_ sensor: TemperatureSensor, didChange degrees: Int) {
         print("- Sendor \(sensor.id) - mudou para \(degrees)")
         barProgress(idSensor: sensor.id, degrees: degrees)
-       
     }
 
 }
