@@ -40,20 +40,23 @@ class ViewController: UIViewController {
                          TemperatureSensor(id: "Sensor 003"),
                          TemperatureSensor(id: "Sensor 004"),]
         for sensor in sensorlist {
-            sensor.delegate = self
+            //sensor.delegate = self
             self.sensors.append(sensor)
+            sensor.onTempertureChange = { [weak self] sensor , TemperatureSensor in
+                self?.barProgress(idSensor: sensor.id, degrees: TemperatureSensor)
+             }
             sensor.start()
         }
     }
 
 }
-extension ViewController : TemperatureSensorDelegate{
-    func sensor(_ sensor: TemperatureSensor, didChange degrees: Int) {
-        print("- Sendor \(sensor.id) - mudou para \(degrees)")
-        barProgress(idSensor: sensor.id, degrees: degrees)
-    }
-
-}
+//extension ViewController : TemperatureSensorDelegate{
+//    func sensor(_ sensor: TemperatureSensor, didChange degrees: Int) {
+//        print("- Sendor \(sensor.id) - mudou para \(degrees)")
+//        barProgress(idSensor: sensor.id, degrees: degrees)
+//    }
+//
+//}
 
 
 

@@ -23,7 +23,7 @@ public class TemperatureSensor {
     let id: String
     private(set) var temperature: Int = 0
     private var timer: Timer?
-
+    var onTempertureChange: ((TemperatureSensor,Int) -> Void)?
     public init(id: String, temperature: Int = 24) {
         self.id = id
         self.temperature = 25
@@ -50,7 +50,7 @@ public class TemperatureSensor {
             let difference = value - upperLimit
             self.temperature += difference
             delegate?.sensor(self, didChange: temperature)
-            
+            onTempertureChange?(self,temperature)
             return
         }
 
@@ -58,7 +58,7 @@ public class TemperatureSensor {
             let difference = value % 3
             self.temperature -= difference
             delegate?.sensor(self, didChange: temperature)
-            
+            onTempertureChange?(self,temperature)
          return
         }
     }
