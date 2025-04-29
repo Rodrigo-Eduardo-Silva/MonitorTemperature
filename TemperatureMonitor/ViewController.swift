@@ -42,13 +42,21 @@ class ViewController: UIViewController {
         for sensor in sensorlist {
             //sensor.delegate = self
             self.sensors.append(sensor)
-            sensor.onTempertureChange = { [weak self] sensor , TemperatureSensor in
-                self?.barProgress(idSensor: sensor.id, degrees: TemperatureSensor)
-             }
+            sensor.onTempertureChange = startAllSensors
+//            sensor.onTempertureChange = { [weak self] sensor , TemperatureSensor in
+//                self?.barProgress(idSensor: sensor.id, degrees: TemperatureSensor)
+//             }
             sensor.start()
         }
     }
 
+}
+
+extension ViewController {
+    func startAllSensors(with sensor: TemperatureSensor , temperature: Int) {
+        self.barProgress(idSensor: sensor.id, degrees: temperature)
+        print("- Sensor \(sensor.id) - mudou para \(temperature)")
+    }
 }
 //extension ViewController : TemperatureSensorDelegate{
 //    func sensor(_ sensor: TemperatureSensor, didChange degrees: Int) {
